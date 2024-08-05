@@ -1,0 +1,15 @@
+import axios from 'axios';
+
+export default async function handler(req, res) {
+    if (req.method === 'POST') {
+        try {
+            const { endpoint, data } = req.body;
+            const response = await axios.post(`http://localhost:5000/api/${endpoint}`, data);
+            res.status(200).json(response.data);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    } else {
+        res.status(405).json({ error: 'Method not allowed' });
+    }
+}
